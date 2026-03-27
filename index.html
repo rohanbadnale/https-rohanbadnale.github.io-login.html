@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Management</title>
+    <style>
+        body { font-family: Arial; background:#0f172a; color:white; }
+        h1 { text-align:center; }
+        .box { background:#1e293b; padding:15px; margin:20px; border-radius:10px; }
+        input, button { padding:10px; margin:5px; }
+    </style>
+</head>
+
+<body>
+
+<h1>College Management System 🎓</h1>
+
+<div class="box">
+    <h2>Add Student</h2>
+    <input type="text" id="name" placeholder="Student Name">
+    <button onclick="addStudent()">Add</button>
+</div>
+
+<div class="box">
+    <h2>Student List</h2>
+    <ul id="list"></ul>
+</div>
+
+<script>
+
+// load saved data
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function showStudents() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    students.forEach(s => {
+        let li = document.createElement("li");
+        li.textContent = s;
+        list.appendChild(li);
+    });
+}
+
+// add student
+function addStudent() {
+    let name = document.getElementById("name").value;
+
+    if(name === "") {
+        alert("Enter name ❌");
+        return;
+    }
+
+    students.push(name);
+    localStorage.setItem("students", JSON.stringify(students));
+
+    document.getElementById("name").value = "";
+    showStudents();
+}
+
+// show on load
+showStudents();
+
+</script>
+
+</body>
+</html>
