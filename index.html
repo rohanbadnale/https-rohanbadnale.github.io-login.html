@@ -3,121 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Management System</title>
+<title>Advanced Student System</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI';}
+
+body{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-body {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.container{
+  background:#fff;
+  width:500px;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-.container {
-  background: #fff;
-  padding: 25px;
-  border-radius: 15px;
-  width: 420px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  text-align: center;
-  animation: fadeIn 0.6s ease-in-out;
+h2{text-align:center;margin-bottom:10px;}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 
-h2 {
-  margin-bottom: 15px;
+button{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  background:#667eea;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
 }
 
-input:focus {
-  border-color: #667eea;
-  outline: none;
+.nav button{
+  width:48%;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  background: #667eea;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.profile-box{
+  text-align:center;
+  padding:10px;
+  background:#f2f2f2;
+  border-radius:10px;
 }
 
-button:hover {
-  background: #5a67d8;
+table{
+  width:100%;
+  margin-top:10px;
+  border-collapse:collapse;
 }
 
-#logoutBtn {
-  background: #e53e3e;
-}
+th,td{padding:8px;text-align:center;}
 
-#logoutBtn:hover {
-  background: #c53030;
-}
+th{background:#667eea;color:#fff;}
 
-table {
-  width: 100%;
-  margin-top: 15px;
-  border-collapse: collapse;
-}
+.edit{background:#38a169;}
+.delete{background:#e53e3e;}
 
-th, td {
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background: #667eea;
-  color: #fff;
-}
-
-tr:nth-child(even) {
-  background: #f2f2f2;
-}
-
-.action-btn {
-  padding: 4px 8px;
-  margin: 2px;
-  font-size: 12px;
-}
-
-.edit {
-  background: #38a169;
-}
-
-.delete {
-  background: #e53e3e;
-}
-
-#search {
-  margin-top: 10px;
-  border: 2px solid #667eea;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-
-@media (max-width: 500px) {
-  .container { width: 90%; }
-}
 </style>
 </head>
 
@@ -128,150 +85,146 @@ tr:nth-child(even) {
 <!-- LOGIN -->
 <div id="loginPage">
   <h2>Login</h2>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
+  <input id="loginUser" placeholder="Username">
+  <input id="loginPass" type="password" placeholder="Password">
   <button onclick="login()">Login</button>
+  <button onclick="showSignup()">Sign Up</button>
 </div>
 
-<!-- MAIN APP -->
+<!-- SIGNUP -->
+<div id="signupPage" style="display:none;">
+  <h2>Sign Up</h2>
+  <input id="signupUser" placeholder="Username">
+  <input id="signupPass" type="password" placeholder="Password">
+  <button onclick="signup()">Register</button>
+  <button onclick="showLogin()">Back</button>
+</div>
+
+<!-- APP -->
 <div id="app" style="display:none;">
-  <h2>Student Management</h2>
 
-  <input type="text" id="name" placeholder="Name">
-  <input type="number" id="age" placeholder="Age">
-  <input type="text" id="course" placeholder="Course">
+  <div class="nav">
+    <button onclick="showDashboard()">Dashboard</button>
+    <button onclick="showProfile()">Profile</button>
+  </div>
 
-  <button onclick="addOrUpdateStudent()">Save Student</button>
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <h2>Welcome, <span id="userDisplay"></span></h2>
 
-  <input type="text" id="search" placeholder="Search..." onkeyup="searchStudent()">
+    <input id="name" placeholder="Name">
+    <input id="age" placeholder="Age">
+    <input id="course" placeholder="Course">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Course</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="studentList"></tbody>
-  </table>
+    <button onclick="addStudent()">Save</button>
 
-  <button id="logoutBtn" onclick="logout()">Logout</button>
+    <input id="search" placeholder="Search..." onkeyup="searchStudent()">
+
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Age</th><th>Course</th><th>Action</th></tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" style="display:none;">
+    <div class="profile-box">
+      <h3>User Profile</h3>
+      <p><b>Username:</b> <span id="profileUser"></span></p>
+    </div>
+  </div>
+
+  <button onclick="logout()">Logout</button>
+
 </div>
 
 </div>
 
 <script>
-let students = [];
-let editIndex = -1;
+let users=JSON.parse(localStorage.getItem("users"))||[];
+let students=JSON.parse(localStorage.getItem("students"))||[];
+let currentUser=localStorage.getItem("currentUser");
 
-// LOGIN
-function login() {
-  let user = document.getElementById("username").value;
-  let pass = document.getElementById("password").value;
+// INIT
+window.onload=()=>{
+  if(currentUser){showApp();}
+  displayStudents();
+};
 
-  if (user === "admin" && pass === "1234") {
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("app").style.display = "block";
-  } else {
-    alert("Invalid login");
-  }
+// AUTH
+function signup(){
+  let u=signupUser.value;
+  let p=signupPass.value;
+  users.push({u,p});
+  localStorage.setItem("users",JSON.stringify(users));
+  alert("Account created");
+  showLogin();
 }
 
-function logout() {
+function login(){
+  let u=loginUser.value;
+  let p=loginPass.value;
+  let user=users.find(x=>x.u===u&&x.p===p);
+  if(user){
+    localStorage.setItem("currentUser",u);
+    showApp();
+  }else alert("Invalid");
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
   location.reload();
 }
 
-// LOAD DATA
-window.onload = function () {
-  let data = localStorage.getItem("students");
-  if (data) {
-    students = JSON.parse(data);
-    displayStudents();
-  }
-};
-
-// SAVE
-function saveData() {
-  localStorage.setItem("students", JSON.stringify(students));
+// UI SWITCH
+function showSignup(){loginPage.style.display="none";signupPage.style.display="block";}
+function showLogin(){signupPage.style.display="none";loginPage.style.display="block";}
+function showApp(){
+  loginPage.style.display="none";
+  signupPage.style.display="none";
+  app.style.display="block";
+  userDisplay.innerText=currentUser;
+  profileUser.innerText=currentUser;
 }
 
-// ADD / UPDATE
-function addOrUpdateStudent() {
-  let name = document.getElementById("name").value;
-  let age = document.getElementById("age").value;
-  let course = document.getElementById("course").value;
+function showDashboard(){dashboard.style.display="block";profile.style.display="none";}
+function showProfile(){dashboard.style.display="none";profile.style.display="block";}
 
-  if (name === "" || age === "" || course === "") {
-    alert("Fill all fields");
-    return;
-  }
-
-  if (editIndex === -1) {
-    students.push({ name, age, course });
-  } else {
-    students[editIndex] = { name, age, course };
-    editIndex = -1;
-  }
-
-  saveData();
-  displayStudents();
-  clearFields();
-}
-
-// DISPLAY
-function displayStudents() {
-  let list = document.getElementById("studentList");
-  list.innerHTML = "";
-
-  students.forEach((s, i) => {
-    list.innerHTML += `
-      <tr>
-        <td>${s.name}</td>
-        <td>${s.age}</td>
-        <td>${s.course}</td>
-        <td>
-          <button class="action-btn edit" onclick="editStudent(${i})">Edit</button>
-          <button class="action-btn delete" onclick="deleteStudent(${i})">Delete</button>
-        </td>
-      </tr>
-    `;
-  });
-}
-
-// DELETE
-function deleteStudent(i) {
-  students.splice(i, 1);
-  saveData();
+// STUDENTS
+function addStudent(){
+  students.push({name:name.value,age:age.value,course:course.value});
+  localStorage.setItem("students",JSON.stringify(students));
   displayStudents();
 }
 
-// EDIT
-function editStudent(i) {
-  document.getElementById("name").value = students[i].name;
-  document.getElementById("age").value = students[i].age;
-  document.getElementById("course").value = students[i].course;
-  editIndex = i;
-}
-
-// SEARCH
-function searchStudent() {
-  let input = document.getElementById("search").value.toLowerCase();
-  let rows = document.querySelectorAll("#studentList tr");
-
-  rows.forEach(row => {
-    row.style.display = row.innerText.toLowerCase().includes(input)
-      ? ""
-      : "none";
+function displayStudents(){
+  list.innerHTML="";
+  students.forEach((s,i)=>{
+    list.innerHTML+=`
+    <tr>
+      <td>${s.name}</td>
+      <td>${s.age}</td>
+      <td>${s.course}</td>
+      <td>
+        <button class="delete" onclick="deleteStudent(${i})">Delete</button>
+      </td>
+    </tr>`;
   });
 }
 
-// CLEAR
-function clearFields() {
-  document.getElementById("name").value = "";
-  document.getElementById("age").value = "";
-  document.getElementById("course").value = "";
+function deleteStudent(i){
+  students.splice(i,1);
+  localStorage.setItem("students",JSON.stringify(students));
+  displayStudents();
+}
+
+function searchStudent(){
+  let val=search.value.toLowerCase();
+  document.querySelectorAll("#list tr").forEach(r=>{
+    r.style.display=r.innerText.toLowerCase().includes(val)?"":"none";
+  });
 }
 </script>
 
